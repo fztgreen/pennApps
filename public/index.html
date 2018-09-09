@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Add Rows To HTML Table From Array </title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        
+        <table id="table" border="1">
+            
+            <!-- The Row Number 0 -->
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+            </tr>
+            <!-- End Row Number 0 -->
+            <!--
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            -->
+        </table>
+        
+		<!-- This needs to retrieve from database-->
+
+		<script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
+		<script>
+		  // Initialize Firebase
+		  var config = {
+			apiKey: "AIzaSyDLtuQ-7TmjXHfdfEiT_kDiBVI8-M6SCpQ",
+			authDomain: "wmdine-web.firebaseapp.com",
+			databaseURL: "https://wmdine-web.firebaseio.com",
+			projectId: "wmdine-web",
+			storageBucket: "wmdine-web.appspot.com",
+			messagingSenderId: "18525717812"
+		  };
+		  firebase.initializeApp(config);
+		</script>
+		
+		
+        <script>
+			
+
+			var db = firebase.database();
+			
+			var ref = db.ref('Friday/afternoon snack');
+			ref.on('value', gotData, errData);
+			
+			function gotData(data){
+				console.log(data.val());
+			}
+			
+			function errData(er){
+				console.logg("error");
+				console.log(err);
+			}
+			
+			db.ref('/').push({
+				Item: "pizza",
+				Calories: "100"
+			});
+	
+            
+
+			
+            var array = [["A1","B1","C1"],
+                         ["A2","B2","C2"],
+                         ["A3","B3","C3"],
+                         ["A4","B4","C4"],
+                         ["A5","B5","C5"],
+                         ["A1","B1","C1"],
+                         ["A2","B2","C2"],
+                         ["A3","B3","C3"],
+                         ["A4","B4","C4"],
+                         ["A5","B5","C5"]],
+                table = document.getElementById("table");
+        
+        /* Method 1
+        // rows
+        for(var i = 1; i < table.rows.length; i++)
+        {
+          // cells
+          for(var j = 0; j < table.rows[i].cells.length; j++)
+          {
+              table.rows[i].cells[j].innerHTML = array[i - 1][j];
+          }
+        }
+            */
+           
+           // Method 2
+           
+           for(var i = 0; i < array.length; i++)
+           {
+               // create a new row
+               var newRow = table.insertRow(table.length);
+               for(var j = 0; j < array[i].length; j++)
+               {
+                   // create a new cell
+                   var cell = newRow.insertCell(j);
+                   
+                   // add value to the cell
+                   cell.innerHTML = array[i][j];
+               }
+           }
+        </script>
+        
+    </body>
+</html>

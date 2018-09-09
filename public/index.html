@@ -11,9 +11,7 @@
             
             <!-- The Row Number 0 -->
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Age</th>
+                <th>Object</th>
             </tr>
             <!-- End Row Number 0 -->
             <!--
@@ -71,11 +69,40 @@
 
 			var db = firebase.database();
 			
-			var ref = db.ref('Friday/afternoon snack');
-			ref.on('value', gotData, errData);
+			var strings = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+			var meals = ["afternoon snack", "breakfast", "dinner", "lunch", "morning break"];
+		
+			var array = [];
+			
+			
+		
+			for (var i = 0; i < strings.length; i++){
+				console.log("i = " + i.toString());
+				for (var j = 0; j < meals.length; j++){
+					console.log("j = " + j.toString());
+					
+						//Add to the overall array
+						//console.log(strings[i] + " " + meals[j]);
+						//console.log("Day: " + strings[i]);
+						var ref = db.ref(strings[i] + "/" + meals[j]);
+						ref.on('child_added', gotData, errData, this);
+						//console.log(child);
+					
+				}
+			}
+			
+			//var ref = db.ref('Friday/afternoon snack');
+			//ref.on('value', gotData, errData);
 			
 			function gotData(data){
-				console.log(data.val());
+				//array.push(data.val().item);
+				var itemObj = data.val();
+				var itemName = itemObj.item;
+				array.push([[itemName], ["Monday"]]);
+				//document.write(itemName);
+				//document.write("\n");
+				
+				console.log(strings[i]+ " " + meals[j] + " " + itemName);
 			}
 			
 			function errData(er){
@@ -83,14 +110,21 @@
 				console.log(err);
 			}
 			
+			
+		
+			
+			
+			/*
 			db.ref('/').push({
 				Item: "pizza",
 				Calories: "100"
 			});
+			*/
 	
-            
+            table = document.getElementById("table");
+		
 
-			
+			/*
             var array = [["A1","B1","C1"],
                          ["A2","B2","C2"],
                          ["A3","B3","C3"],
@@ -101,9 +135,10 @@
                          ["A3","B3","C3"],
                          ["A4","B4","C4"],
                          ["A5","B5","C5"]],
-                table = document.getElementById("table");
+                
+				*/
         
-        /* Method 1
+         
         // rows
         for(var i = 1; i < table.rows.length; i++)
         {
@@ -113,23 +148,26 @@
               table.rows[i].cells[j].innerHTML = array[i - 1][j];
           }
         }
-            */
+            
            
            // Method 2
-           
+          /*
            for(var i = 0; i < array.length; i++)
            {
                // create a new row
                var newRow = table.insertRow(table.length);
-               for(var j = 0; j < array[i].length; j++)
-               {
-                   // create a new cell
+               for (var j = 0; j < array[i].length; j++){
+					// create a new cell
                    var cell = newRow.insertCell(j);
                    
                    // add value to the cell
                    cell.innerHTML = array[i][j];
-               }
+			   
+			   }
+                   
+               
            }
+		   */
         </script>
         
     </body>
